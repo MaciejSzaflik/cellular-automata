@@ -6,6 +6,7 @@
 #include <time.h> 
 #include "SimpleAnt.h"
 #include "AntFactory.h"
+#include "Rule.h"
 
 using namespace cv;
 using namespace std;
@@ -13,7 +14,7 @@ using namespace std;
 
 int main()
 {
-	int w = 400, h = 400;
+	int w = 256, h = 256;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
 	int scale = 2;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
@@ -31,21 +32,23 @@ int main()
 		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
 	};
 
-	for (int i = 0; i < 10000; i++)
+	for (int i = 0; i < 256; i++)
 	{
-		for (SimpleAnt& ant : ants)
+		image = Mat::zeros(w, h, CV_8UC3);
+		imS = Mat::zeros(w * scale, h * scale, CV_8UC3);
+		Rule rule = Rule(i);
+		rule.initializeRandom(image);
+
+		for (int i = 0; i < h; i++)
 		{
-			ant.step(image);
+			rule.step(image);
 		}
 
-		if (scale > 0)
-		{
-			resize(image, imS, Size(w * scale, h * scale),0,0,0);
-		}
-		imshow("Display Window", imS);
-		waitKey(33);
+		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
+		imwrite("rule_" + rule.rule + "_random.png", imS);
+
+		cout << rule.rule << endl;
 	}
-
 	waitKey(0);
 
 
