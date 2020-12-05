@@ -8,6 +8,5 @@ class BriansBrain : public Seed
 public:
 	void initialize(int w, int h);
 	cv::Mat getStep();
-
 };
 

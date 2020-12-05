@@ -1,60 +1,22 @@
-#include "Seed.h"
-#include <opencv2/core/core.hpp>
-#include <opencv2\core\base.hpp>
-#include <bitset>
+#include "GameOfLife.h"
 
 #define off 220
 #define on 30
 
-void Seed::initialize(int w, int h)
+void GameOfLife::initialize(int w, int h)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
-
 
 	this->data.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
 		{
-			pixel = off;
+			pixel = rand() % 10 + 1 > 6 ? on : off;
 		}
 	);
 
-	cv::Mat pRoi = this->data(cv::Rect(w - w / 4 ,h -  h / 4, 24, 24));
-	pRoi.setTo(on);
-
-	pRoi = this->data(cv::Rect(w - w / 4, h - h / 4, 22, 22));
-	pRoi.setTo(off);
-
 }
 
-inline int Seed::getRow(int a)
-{
-	if (a < 0)
-		return data.rows - 1;
-	else if (a > data.rows)
-		return 0;
-	else
-		return a;
-}
-
-inline int Seed::getCol(int a)
-{
-	if (a < 0)
-		return data.cols - 1;
-	else if (a > data.cols)
-		return 0;
-	else
-		return a;
-}
-
-cv::Mat Seed::getTexture()
-{
-	cv::Mat display;
-	data.convertTo(display, CV_8UC3);
-
-	return display;
-}
-
-cv::Mat Seed::getStep()
+cv::Mat GameOfLife::getStep()
 {
 	cv::Mat clone = data.clone();
 
@@ -64,6 +26,9 @@ cv::Mat Seed::getStep()
 		{
 			int a = 0;
 			int ic = i * clone.cols;
+
+			bool alive = clone.data[ic + j] == on;
+
 			int im = getRow(i - 1) * clone.cols;
 			int ip = getRow(i + 1) * clone.cols;
 			int jm = getCol(j - 1);
@@ -87,12 +52,19 @@ cv::Mat Seed::getStep()
 				++a;
 			if (clone.data[ip + jm] == on)
 				++a;
-			
-			if (a == 2)
-				data.data[ic + j] = on;
-			else
-				data.data[ic + j] = off;
 
+			if (!alive && a == 3)
+			{
+				data.data[ic + j] = on;
+			}
+			else if (alive && (a == 3 || a == 2))
+			{
+				continue;
+			}
+			else if (alive)
+			{
+				data.data[ic + j] = off;
+			}
 		}
 	}
 

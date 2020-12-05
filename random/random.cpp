@@ -9,6 +9,7 @@
 #include "Rule.h"
 #include "Seed.h"
 #include "BriansBrain.h"
+#include "GameOfLife.h"
 
 using namespace cv;
 using namespace std;
@@ -16,9 +17,9 @@ using namespace std;
 
 int main()
 {
-	int w = 150, h = 150;
+	int w = 256, h = 256;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 5;
+	int scale = 2;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
 	int dir = 0;
@@ -34,7 +35,7 @@ int main()
 		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
 	};
 
-	BriansBrain seed = BriansBrain();
+	GameOfLife seed = GameOfLife();
 	seed.initialize(w, h);
 
 	image = seed.getTexture();
