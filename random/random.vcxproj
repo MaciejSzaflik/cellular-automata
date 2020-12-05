@@ -147,12 +147,14 @@
     <ClCompile Include="AntStep.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="Rule.cpp" />
+    <ClCompile Include="Seed.cpp" />
     <ClCompile Include="SimpleAnt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AntFactory.h" />
     <ClInclude Include="AntStep.h" />
     <ClInclude Include="Rule.h" />
+    <ClInclude Include="Seed.h" />
     <ClInclude Include="SimpleAnt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
