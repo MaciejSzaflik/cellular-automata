@@ -18,7 +18,7 @@ using namespace std;
 
 int main()
 {
-	int w = 400, h = 400;
+	int w = 800, h = 800;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
 	int scale = 1;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
@@ -37,7 +37,7 @@ int main()
 	};
 
 	Life_Like seed = Life_Like();
-	seed.initialize(w, h, "1357/1357");
+	seed.initialize(w, h, "3678/34678");
 
 	image = seed.getTexture();
 	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);

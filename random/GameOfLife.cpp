@@ -22,17 +22,18 @@ cv::Mat GameOfLife::getStep()
 
 	for (int i = 0; i < clone.cols; i++)
 	{
+		int ic = i * clone.cols;
+		int im = getRow(i - 1) * clone.cols;
+		int ip = getRow(i + 1) * clone.cols;
+
 		for (int j = 0; j < clone.rows; j++)
 		{
 			int a = 0;
-			int ic = i * clone.cols;
 
 			bool alive = clone.data[ic + j] == on;
 
-			int im = getRow(i - 1) * clone.cols;
-			int ip = getRow(i + 1) * clone.cols;
-			int jm = getCol(j - 1);
-			int jp = getCol(j + 1);
+			int jm = j - 1 < 0 ? clone.cols - 1 : j - 1;
+			int jp = j + 1 > clone.cols - 1 ? 0 : j + 1;
 
 			if (clone.data[im + jp] == on)
 				++a;

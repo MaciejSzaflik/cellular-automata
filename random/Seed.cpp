@@ -10,6 +10,8 @@
 void Seed::initialize(int w, int h, std::string data)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
+	this->w = w - 1;
+	this->h = h - 1;
 
 	this->data.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
@@ -26,7 +28,7 @@ void Seed::initialize(int w, int h, std::string data)
 
 }
 
-inline int Seed::getRow(int a)
+int Seed::getRow(int a)
 {
 	if (a < 0)
 		return data.rows - 1;
@@ -36,7 +38,7 @@ inline int Seed::getRow(int a)
 		return a;
 }
 
-inline int Seed::getCol(int a)
+int Seed::getCol(int a)
 {
 	if (a < 0)
 		return data.cols - 1;
@@ -60,14 +62,16 @@ cv::Mat Seed::getStep()
 
 	for (int i = 0; i < clone.cols; i++)
 	{
+		int im = getRow(i - 1) * clone.cols;
+		int ip = getRow(i + 1) * clone.cols;
+		int ic = i * clone.cols;
+
 		for (int j = 0; j < clone.rows; j++)
 		{
 			int a = 0;
-			int ic = i * clone.cols;
-			int im = getRow(i - 1) * clone.cols;
-			int ip = getRow(i + 1) * clone.cols;
-			int jm = getCol(j - 1);
-			int jp = getCol(j + 1);
+			
+			int jm = j - 1 < 0 ? clone.cols - 1 : j - 1;
+			int jp = j + 1 > clone.cols - 1 ? 0 : j + 1;
 
 			if (clone.data[im + jp] == on)
 				++a;

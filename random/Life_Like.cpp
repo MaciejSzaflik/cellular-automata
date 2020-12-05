@@ -7,17 +7,19 @@
 void Life_Like::initialize(int w, int h, std::string data)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
+	this->w = w - 1;
+	this->h = h - 1;
 
 	this->data.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
 		{
-			pixel = rand() % 10 + 1 > 20 ? on : off;
+			pixel = rand() % 10 + 1 > 8? on : off;
 		}
 	);
 
-	cv::Mat pRoi = this->data(cv::Rect(w/2, h/2, 6, 6));
+	cv::Mat pRoi = this->data(cv::Rect(w/2 - 350, h/2 - 350, 700, 700));
 	pRoi.setTo(on);
-	pRoi = this->data(cv::Rect(w / 2, h / 2, 2, 2));
+	pRoi = this->data(cv::Rect(w / 2 - 250, h / 2 - 250, 500, 500));
 	pRoi.setTo(off);
 
 	int currentSet = 0;
@@ -34,10 +36,10 @@ void Life_Like::initialize(int w, int h, std::string data)
 			switch (currentSet)
 			{
 			case 0:
-				this->b.set(value);
+				this->b[value] = true;
 				break;
 			case 1:
-				this->s.set(value);
+				this->s[value] = true;
 				break;
 			}
 		}
@@ -47,20 +49,23 @@ void Life_Like::initialize(int w, int h, std::string data)
 cv::Mat Life_Like::getStep()
 {
 	cv::Mat clone = data.clone();
-
+	
 	for (int i = 0; i < clone.cols; i++)
 	{
+		int im = getRow(i - 1) * clone.cols;
+		int ip = getRow(i + 1) * clone.cols;
+		int ic = i * clone.cols;
+
 		for (int j = 0; j < clone.rows; j++)
 		{
 			int a = 0;
-			int ic = i * clone.cols;
-
+			
 			bool alive = clone.data[ic + j] == on;
+			
+			j - 1 < 0 ? clone.cols - 1 : j - 1;
 
-			int im = getRow(i - 1) * clone.cols;
-			int ip = getRow(i + 1) * clone.cols;
-			int jm = getCol(j - 1);
-			int jp = getCol(j + 1);
+			int jm = j - 1 < 0 ? clone.cols - 1 : j - 1;
+			int jp = j + 1 > clone.cols - 1 ? 0 : j + 1;
 
 			if (clone.data[im + jp] == on)
 				++a;
