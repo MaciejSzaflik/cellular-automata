@@ -3,7 +3,7 @@
 #define off 220
 #define on 30
 
-void GameOfLife::initialize(int w, int h)
+void GameOfLife::initialize(int w, int h, std::string data)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
 

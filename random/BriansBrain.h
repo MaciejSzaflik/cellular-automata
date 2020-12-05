@@ -6,7 +6,7 @@
 class BriansBrain : public Seed
 {
 public:
-	void initialize(int w, int h);
+	void initialize(int w, int h, std::string data);
 	cv::Mat getStep();
 };
 

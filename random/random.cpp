@@ -10,6 +10,7 @@
 #include "Seed.h"
 #include "BriansBrain.h"
 #include "GameOfLife.h"
+#include "Life_Like.h"
 
 using namespace cv;
 using namespace std;
@@ -17,9 +18,9 @@ using namespace std;
 
 int main()
 {
-	int w = 256, h = 256;
+	int w = 400, h = 400;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 2;
+	int scale = 1;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
 	int dir = 0;
@@ -35,8 +36,8 @@ int main()
 		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
 	};
 
-	GameOfLife seed = GameOfLife();
-	seed.initialize(w, h);
+	Life_Like seed = Life_Like();
+	seed.initialize(w, h, "1357/1357");
 
 	image = seed.getTexture();
 	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);

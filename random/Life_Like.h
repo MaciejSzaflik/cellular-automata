@@ -1,9 +1,13 @@
-#pragma once
+
 #include "Seed.h"
-class GameOfLife : public Seed
+#include <bitset>
+
+class Life_Like : public Seed
 {
 public:
 	void initialize(int w, int h, std::string data);
 	cv::Mat getStep();
+private:
+	std::bitset<9> b;
+	std::bitset<9> s;
 };
-

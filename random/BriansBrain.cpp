@@ -7,7 +7,7 @@
 #define on 30
 #define dying 150
 
-void BriansBrain::initialize(int w, int h)
+void BriansBrain::initialize(int w, int h, std::string data)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
 
