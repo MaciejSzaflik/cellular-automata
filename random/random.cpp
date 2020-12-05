@@ -8,6 +8,7 @@
 #include "AntFactory.h"
 #include "Rule.h"
 #include "Seed.h"
+#include "BriansBrain.h"
 
 using namespace cv;
 using namespace std;
@@ -15,9 +16,9 @@ using namespace std;
 
 int main()
 {
-	int w = 200, h = 200;
+	int w = 150, h = 150;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 3;
+	int scale = 5;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
 	int dir = 0;
@@ -33,12 +34,17 @@ int main()
 		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
 	};
 
-	Seed seed = Seed();
+	BriansBrain seed = BriansBrain();
 	seed.initialize(w, h);
+
+	image = seed.getTexture();
+	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
+
 	imshow("display", imS);
+
 	waitKey(0);
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 5000; i++)
 	{
 		image = seed.getStep();
 		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
