@@ -10,8 +10,6 @@
 void Seed::initialize(int w, int h, std::string data)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
-	this->w = w - 1;
-	this->h = h - 1;
 
 	this->data.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void

@@ -147,6 +147,7 @@
     <ClCompile Include="AntStep.cpp" />
     <ClCompile Include="BriansBrain.cpp" />
     <ClCompile Include="GameOfLife.cpp" />
+    <ClCompile Include="Generations.cpp" />
     <ClCompile Include="Life_Like.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="Rule.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="AntStep.h" />
     <ClInclude Include="BriansBrain.h" />
     <ClInclude Include="GameOfLife.h" />
+    <ClInclude Include="Generations.h" />
     <ClInclude Include="Life_Like.h" />
     <ClInclude Include="Rule.h" />
     <ClInclude Include="Seed.h" />

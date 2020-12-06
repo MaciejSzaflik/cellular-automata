@@ -7,8 +7,6 @@
 void Life_Like::initialize(int w, int h, std::string data)
 {
 	this->data = cv::Mat::zeros(w, h, CV_8U);
-	this->w = w - 1;
-	this->h = h - 1;
 
 	this->data.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
@@ -17,9 +15,9 @@ void Life_Like::initialize(int w, int h, std::string data)
 		}
 	);
 
-	cv::Mat pRoi = this->data(cv::Rect(w/2 - 350, h/2 - 350, 700, 700));
+	cv::Mat pRoi = this->data(cv::Rect(w/2 - 150, h/2 - 150, 300, 300));
 	pRoi.setTo(on);
-	pRoi = this->data(cv::Rect(w / 2 - 250, h / 2 - 250, 500, 500));
+	pRoi = this->data(cv::Rect(w / 2 - 75, h / 2 - 75, 150, 150));
 	pRoi.setTo(off);
 
 	int currentSet = 0;

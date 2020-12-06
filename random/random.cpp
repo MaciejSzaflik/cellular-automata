@@ -11,6 +11,7 @@
 #include "BriansBrain.h"
 #include "GameOfLife.h"
 #include "Life_Like.h"
+#include "Generations.h"
 
 using namespace cv;
 using namespace std;
@@ -18,9 +19,9 @@ using namespace std;
 
 int main()
 {
-	int w = 800, h = 800;
+	int w = 200, h = 200;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 1;
+	int scale = 4;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
 	int dir = 0;
@@ -36,8 +37,8 @@ int main()
 		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
 	};
 
-	Life_Like seed = Life_Like();
-	seed.initialize(w, h, "3678/34678");
+	Generations seed = Generations();
+	seed.initialize(w, h, "2356/1456/16");
 
 	image = seed.getTexture();
 	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);

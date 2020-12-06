@@ -42,6 +42,9 @@
     <ClCompile Include="Life_Like.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Generations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimpleAnt.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Life_Like.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Generations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

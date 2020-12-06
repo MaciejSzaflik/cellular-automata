@@ -13,6 +13,5 @@ public:
 protected:
 	int getRow(int a);
 	int getCol(int a);
-	int w, h;
 };
 
