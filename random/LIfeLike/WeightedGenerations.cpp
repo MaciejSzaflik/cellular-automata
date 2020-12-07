@@ -1,6 +1,5 @@
 #include "WeightedGenerations.h"
 
-
 #include "Generations.h"
 #include <string>
 #include <opencv2\imgproc.hpp>
@@ -27,6 +26,8 @@ void WeightedGenerations::initialize(int w, int h, std::string data)
 	}
 	colorValues[last] = 0;
 
+	createRectangle(w/2, w/2, 1, colorValues[0]);
+
 	step = w / 4;
 	int halfstep = step / 2;
 	for (int i = 0; i < w; i += step)
@@ -38,6 +39,9 @@ void WeightedGenerations::initialize(int w, int h, std::string data)
 			createRectangle(i + halfstep, j + halfstep, 2, colorValues[0]);
 		}
 	}
+
+	kernel = cv::Mat::ones(3, 3, CV_8U);
+	kernel.at<uchar>(1, 1) = 0;
 }
 
 cv::Mat WeightedGenerations::getStepFilter()
@@ -47,50 +51,40 @@ cv::Mat WeightedGenerations::getStepFilter()
 
 	cv::Mat transitionTable = cv::Mat::zeros(universeData.rows, universeData.cols, CV_8U);
 
-	cv::threshold(universeData, transitionTable, 254, 1, CV_8U);
-
-	cv::Mat kernel = cv::Mat::ones(3, 3, CV_8U);
-	kernel.at<uchar>(1, 1) = 0;
+	cv::threshold(universeData, transitionTable, aliveColor - 1, 1, CV_8U);
 	cv::filter2D(transitionTable, transitionTable, -1, kernel);
 
-	for (int i = 0; i < universeData.cols; i++)
-	{
-		int im = getRow(i - 1) * universeData.cols;
-		int ip = getRow(i + 1) * universeData.cols;
-		int ic = i * universeData.cols;
+	cv::Mat iterable;
+	std::vector<cv::Mat> channels(2);
+	channels[0] = universeData;
+	channels[1] = transitionTable;
+	cv::merge(channels, iterable);
 
-		for (int j = 0; j < universeData.rows; j++)
+	iterable.forEach<cv::Vec2b>(
+		[aliveColor, deadColor, this](cv::Vec2b& pixel, const int* position) -> void
 		{
-			int a = 0;
-			int myIndex = ic + j;
+			int currentCell = pixel.val[0];
+			int a = pixel.val[1];
 
-			bool dead = universeData.data[myIndex] == deadColor;
-			bool alive = universeData.data[myIndex] == aliveColor;
-
-			j - 1 < 0 ? universeData.cols - 1 : j - 1;
-
-			int jm = j - 1 < 0 ? universeData.cols - 1 : j - 1;
-			int jp = j + 1 > universeData.cols - 1 ? 0 : j + 1;
-
-			a = transitionTable.data[myIndex];
-
-			if (dead && birthCondition[a])
+			if (currentCell == deadColor && birthCondition[a])
 			{
-				universeData.data[myIndex] = aliveColor;
+				pixel.val[0] = aliveColor;
 			}
-			else if (alive && survivalCondition[a])
+			else if (currentCell == aliveColor && survivalCondition[a])
 			{
-				continue;
 			}
-			else if (!dead)
+			else if (currentCell != deadColor)
 			{
-				universeData.data[myIndex] = colorValues[universeData.data[myIndex]];
+				pixel.val[0] = colorValues[currentCell];
 			}
 
 		}
-	}
+	);
 
 	cv::Mat display;
+
+	cv::split(iterable, channels);
+	channels[0].copyTo(universeData);
 	universeData.convertTo(display, CV_8UC3);
 	applyColorMap(display, display, cv::COLORMAP_INFERNO);
 	return display;

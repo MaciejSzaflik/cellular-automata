@@ -12,5 +12,6 @@ public:
 protected:
 	int generations;
 	int colorValues[256];
+	cv::Mat kernel;
 };
 

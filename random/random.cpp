@@ -20,11 +20,14 @@ using namespace std;
 
 int main()
 {
-	int w = 256, h = 256;
+	int w = 200, h = 200;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 2;
+	int scale = 3;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
+
+	Mat image2 = Mat::zeros(w, h, CV_8UC3);
+	Mat imS2 = Mat::zeros(w * scale, h * scale, CV_8UC3);
 
 	int dir = 0;
 	int itr = 1000;
@@ -42,8 +45,8 @@ int main()
 	WeightedGenerations seed = WeightedGenerations();
 	seed.initialize(w, h, "34678/234/24");
 
-	Generations generations = Generations();
-	generations.initialize(w, h, "34678/234/24");
+	WeightedGenerations seed2 = WeightedGenerations();
+	seed2.initialize(w, h, "34678/234/24");
 
 	image = seed.getTexture();
 	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
@@ -53,15 +56,29 @@ int main()
 
 	waitKey(0);
 
-	for (int i = 0; i < 100; i++)
+	clock_t t;
+	t = clock();
+
+	for (int i = 0; i < 200; i++)
 	{
-		image = seed.getStep();
-		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
-
-		imshow("display", imS);
-
-		waitKey(10);
+		image = seed.getStepFilter();
 	}
+
+	t = clock() - t;
+	printf("It took me %d clicks filter (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
+
+	clock_t t2;
+	t2 = clock();
+
+	for (int i = 0; i < 200; i++)
+	{
+		image = seed2.getStep();
+	}
+
+	t2 = clock() - t2;
+	printf("It took me %d clicks (%f seconds).\n", t2, ((float)t2) / CLOCKS_PER_SEC);
+
+
 
 	waitKey(0);
 
