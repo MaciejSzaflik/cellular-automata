@@ -42,12 +42,12 @@ void WeightedGenerations::initialize(int w, int h, std::string data)
 
 cv::Mat WeightedGenerations::getStepFilter()
 {
+	int aliveColor = 255;
+	int deadColor = 0;
+
 	cv::Mat transitionTable = cv::Mat::zeros(universeData.rows, universeData.cols, CV_8U);
 
 	cv::threshold(universeData, transitionTable, 254, 1, CV_8U);
-
-	int aliveColor = 255;
-	int deadColor = 0;
 
 	cv::Mat kernel = cv::Mat::ones(3, 3, CV_8U);
 	kernel.at<uchar>(1, 1) = 0;
