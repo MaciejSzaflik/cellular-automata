@@ -18,60 +18,66 @@
     <ClCompile Include="random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleAnt.cpp">
+    <ClCompile Include="Ants\AntFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AntStep.cpp">
+    <ClCompile Include="Ants\AntStep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AntFactory.cpp">
+    <ClCompile Include="Ants\SimpleAnt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rule.cpp">
+    <ClCompile Include="LIfeLike\BriansBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Seed.cpp">
+    <ClCompile Include="LIfeLike\GameOfLife.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BriansBrain.cpp">
+    <ClCompile Include="LIfeLike\Generations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameOfLife.cpp">
+    <ClCompile Include="LIfeLike\Life_Like.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Life_Like.cpp">
+    <ClCompile Include="LIfeLike\Seed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Generations.cpp">
+    <ClCompile Include="LIfeLike\WeightedGenerations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rule\Rule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SimpleAnt.h">
+    <ClInclude Include="Ants\AntFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AntStep.h">
+    <ClInclude Include="Ants\AntStep.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AntFactory.h">
+    <ClInclude Include="Ants\SimpleAnt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rule.h">
+    <ClInclude Include="LIfeLike\BriansBrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Seed.h">
+    <ClInclude Include="LIfeLike\GameOfLife.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BriansBrain.h">
+    <ClInclude Include="LIfeLike\Generations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameOfLife.h">
+    <ClInclude Include="LIfeLike\Life_Like.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Life_Like.h">
+    <ClInclude Include="LIfeLike\Seed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Generations.h">
+    <ClInclude Include="LIfeLike\WeightedGenerations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rule\Rule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

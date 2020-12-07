@@ -7,6 +7,6 @@ public:
 	void initialize(int w, int h, std::string data);
 	cv::Mat getStep();
 protected:
-	bool b[9];
-	bool s[9];
+	bool birthCondition[9];
+	bool survivalCondition[9];
 };

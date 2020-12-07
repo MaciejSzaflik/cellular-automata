@@ -9,9 +9,9 @@
 
 void BriansBrain::initialize(int w, int h, std::string data)
 {
-	this->data = cv::Mat::zeros(w, h, CV_8U);
+	this->universeData = cv::Mat::zeros(w, h, CV_8U);
 
-	this->data.forEach<uchar>(
+	this->universeData.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
 		{
 			pixel = rand()%10 + 1 > 7 ? on : off;
@@ -22,7 +22,7 @@ void BriansBrain::initialize(int w, int h, std::string data)
 
 cv::Mat BriansBrain::getStep()
 {
-	cv::Mat clone = data.clone();
+	cv::Mat clone = universeData.clone();
 
 	for (int i = 0; i < clone.cols; i++)
 	{
@@ -33,13 +33,13 @@ cv::Mat BriansBrain::getStep()
 
 			if (clone.data[ic + j] == dying)
 			{
-				data.data[ic + j] = off;
+				universeData.data[ic + j] = off;
 				continue;
 			}
 
 			if (clone.data[ic + j] == on)
 			{
-				data.data[ic + j] = dying;
+				universeData.data[ic + j] = dying;
 				continue;
 			}
 
@@ -68,12 +68,12 @@ cv::Mat BriansBrain::getStep()
 				++a;
 
 			if (a == 2)
-				data.data[ic + j] = on;
+				universeData.data[ic + j] = on;
 		}
 	}
 
 	cv::Mat display;
-	data.convertTo(display, CV_8UC3);
+	universeData.convertTo(display, CV_8UC3);
 
 	return display;
 }

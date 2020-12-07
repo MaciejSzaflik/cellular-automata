@@ -6,18 +6,18 @@
 
 void Life_Like::initialize(int w, int h, std::string data)
 {
-	this->data = cv::Mat::zeros(w, h, CV_8U);
+	this->universeData = cv::Mat::zeros(w, h, CV_8U);
 
-	this->data.forEach<uchar>(
+	this->universeData.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
 		{
 			pixel = rand() % 10 + 1 > 8? on : off;
 		}
 	);
 
-	cv::Mat pRoi = this->data(cv::Rect(w/2 - 150, h/2 - 150, 300, 300));
+	cv::Mat pRoi = this->universeData(cv::Rect(w/2 - 150, h/2 - 150, 300, 300));
 	pRoi.setTo(on);
-	pRoi = this->data(cv::Rect(w / 2 - 75, h / 2 - 75, 150, 150));
+	pRoi = this->universeData(cv::Rect(w / 2 - 75, h / 2 - 75, 150, 150));
 	pRoi.setTo(off);
 
 	int currentSet = 0;
@@ -34,10 +34,10 @@ void Life_Like::initialize(int w, int h, std::string data)
 			switch (currentSet)
 			{
 			case 0:
-				this->b[value] = true;
+				this->birthCondition[value] = true;
 				break;
 			case 1:
-				this->s[value] = true;
+				this->survivalCondition[value] = true;
 				break;
 			}
 		}
@@ -46,7 +46,7 @@ void Life_Like::initialize(int w, int h, std::string data)
 
 cv::Mat Life_Like::getStep()
 {
-	cv::Mat clone = data.clone();
+	cv::Mat clone = universeData.clone();
 	
 	for (int i = 0; i < clone.cols; i++)
 	{
@@ -84,23 +84,23 @@ cv::Mat Life_Like::getStep()
 			if (clone.data[ip + jm] == on)
 				++a;
 
-			if (!alive && b[a])
+			if (!alive && birthCondition[a])
 			{
-				data.data[ic + j] = on;
+				universeData.data[ic + j] = on;
 			}
-			else if (alive && s[a])
+			else if (alive && survivalCondition[a])
 			{
 				continue;
 			}
 			else if (alive)
 			{
-				data.data[ic + j] = off;
+				universeData.data[ic + j] = off;
 			}
 		}
 	}
 
 	cv::Mat display;
-	data.convertTo(display, CV_8UC3);
+	universeData.convertTo(display, CV_8UC3);
 
 	return display;
 }

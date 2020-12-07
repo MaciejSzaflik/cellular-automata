@@ -4,14 +4,14 @@
 #include <iostream>
 #include <stdlib.h>    
 #include <time.h> 
-#include "SimpleAnt.h"
-#include "AntFactory.h"
-#include "Rule.h"
-#include "Seed.h"
-#include "BriansBrain.h"
-#include "GameOfLife.h"
-#include "Life_Like.h"
-#include "Generations.h"
+#include "Ants/SimpleAnt.h"
+#include "Ants/AntFactory.h"
+#include "Rule/Rule.h"
+#include "LifeLike/Seed.h"
+#include "LifeLike/BriansBrain.h"
+#include "LifeLike/GameOfLife.h"
+#include "LifeLike/Life_Like.h"
+#include "LifeLike/Generations.h"
 
 using namespace cv;
 using namespace std;
@@ -19,9 +19,9 @@ using namespace std;
 
 int main()
 {
-	int w = 200, h = 200;
+	int w = 128, h = 128;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 4;
+	int scale = 5;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
 	int dir = 0;
@@ -38,7 +38,7 @@ int main()
 	};
 
 	Generations seed = Generations();
-	seed.initialize(w, h, "2356/1456/16");
+	seed.initialize(w, h, "34678/234/24");
 
 	image = seed.getTexture();
 	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
@@ -47,13 +47,13 @@ int main()
 
 	waitKey(0);
 
-	for (int i = 0; i < 5000; i++)
+	for (int i = 0; i < 50000; i++)
 	{
 		image = seed.getStep();
 		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
 
 		imshow("display", imS);
-		waitKey(33);
+		waitKey(10);
 	}
 
 	waitKey(0);

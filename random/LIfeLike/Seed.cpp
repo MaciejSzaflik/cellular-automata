@@ -9,19 +9,19 @@
 
 void Seed::initialize(int w, int h, std::string data)
 {
-	this->data = cv::Mat::zeros(w, h, CV_8U);
+	this->universeData = cv::Mat::zeros(w, h, CV_8U);
 
-	this->data.forEach<uchar>(
+	this->universeData.forEach<uchar>(
 		[](uchar& pixel, const int* position) -> void
 		{
 			pixel = off;
 		}
 	);
 
-	cv::Mat pRoi = this->data(cv::Rect(w - w / 4 ,h -  h / 4, 24, 24));
+	cv::Mat pRoi = this->universeData(cv::Rect(w - w / 4 ,h -  h / 4, 24, 24));
 	pRoi.setTo(on);
 
-	pRoi = this->data(cv::Rect(w - w / 4, h - h / 4, 22, 22));
+	pRoi = this->universeData(cv::Rect(w - w / 4, h - h / 4, 22, 22));
 	pRoi.setTo(off);
 
 }
@@ -29,8 +29,8 @@ void Seed::initialize(int w, int h, std::string data)
 int Seed::getRow(int a)
 {
 	if (a < 0)
-		return data.rows - 1;
-	else if (a > data.rows)
+		return universeData.rows - 1;
+	else if (a > universeData.rows)
 		return 0;
 	else
 		return a;
@@ -39,8 +39,8 @@ int Seed::getRow(int a)
 int Seed::getCol(int a)
 {
 	if (a < 0)
-		return data.cols - 1;
-	else if (a > data.cols)
+		return universeData.cols - 1;
+	else if (a > universeData.cols)
 		return 0;
 	else
 		return a;
@@ -49,14 +49,14 @@ int Seed::getCol(int a)
 cv::Mat Seed::getTexture()
 {
 	cv::Mat display;
-	data.convertTo(display, CV_8UC3);
+	universeData.convertTo(display, CV_8UC3);
 
 	return display;
 }
 
 cv::Mat Seed::getStep()
 {
-	cv::Mat clone = data.clone();
+	cv::Mat clone = universeData.clone();
 
 	for (int i = 0; i < clone.cols; i++)
 	{
@@ -91,15 +91,15 @@ cv::Mat Seed::getStep()
 				++a;
 			
 			if (a == 2)
-				data.data[ic + j] = on;
+				universeData.data[ic + j] = on;
 			else
-				data.data[ic + j] = off;
+				universeData.data[ic + j] = off;
 
 		}
 	}
 
 	cv::Mat display;
-	data.convertTo(display, CV_8UC3);
+	universeData.convertTo(display, CV_8UC3);
 
 	return display;
 }

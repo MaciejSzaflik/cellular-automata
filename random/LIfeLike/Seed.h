@@ -6,7 +6,7 @@
 class Seed
 {
 public:
-	cv::Mat data;
+	cv::Mat universeData;
 	virtual void initialize(int w, int h, std::string data);
 	virtual cv::Mat getStep();
 	cv::Mat getTexture();
