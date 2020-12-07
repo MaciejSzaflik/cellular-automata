@@ -12,6 +12,7 @@
 #include "LifeLike/GameOfLife.h"
 #include "LifeLike/Life_Like.h"
 #include "LifeLike/Generations.h"
+#include "LifeLike/WeightedGenerations.h"
 
 using namespace cv;
 using namespace std;
@@ -19,11 +20,12 @@ using namespace std;
 
 int main()
 {
-	int w = 128, h = 128;
+	int w = 256, h = 256;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 5;
+	int scale = 2;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
+
 	int dir = 0;
 	int itr = 1000;
 
@@ -37,22 +39,27 @@ int main()
 		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
 	};
 
-	Generations seed = Generations();
+	WeightedGenerations seed = WeightedGenerations();
 	seed.initialize(w, h, "34678/234/24");
+
+	Generations generations = Generations();
+	generations.initialize(w, h, "34678/234/24");
 
 	image = seed.getTexture();
 	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
 
 	imshow("display", imS);
 
+
 	waitKey(0);
 
-	for (int i = 0; i < 50000; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		image = seed.getStep();
 		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
 
 		imshow("display", imS);
+
 		waitKey(10);
 	}
 

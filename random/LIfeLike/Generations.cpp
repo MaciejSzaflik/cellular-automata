@@ -36,16 +36,6 @@ void Generations::initialize(int w, int h, std::string data)
 			createRectangle(i + halfstep, j+ halfstep, 2, colorValues[0]);
 		}
 	}
-
-	/*this->data.forEach<uchar>(
-		[this, last](uchar& pixel, const int* position) -> void
-		{
-			pixel = rand() % 10 + 1 > 6 ? colorValues[0] : colorValues[last];
-		}
-	);*/
-
-	//cv::GaussianBlur(this->data, this->data, cv::Size(7, 7), 0);
-	//cv::threshold(this->data, this->data, 128, 255, cv::THRESH_BINARY);
 }
 
 void Generations::createRectangle(int xCenter, int yCenter, int size, int value)
