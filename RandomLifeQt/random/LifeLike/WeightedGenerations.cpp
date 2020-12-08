@@ -6,7 +6,7 @@
 
 void WeightedGenerations::initialize(int w, int h, std::string data)
 {
-	this->universeData = cv::Mat::zeros(w, h, CV_8U);
+	this->universeData = cv::Mat::zeros(h, w, CV_8U);
 
 	int currentSet = 0;
 
@@ -26,19 +26,27 @@ void WeightedGenerations::initialize(int w, int h, std::string data)
 	}
 	colorValues[last] = 0;
 
-	createRectangle(w/2, w/2, 1, colorValues[0]);
+	//createRectangle(w/2, w/2, 1, colorValues[0]);
 
-	step = w / 4;
+	/*step = w / 4;
 	int halfstep = step / 2;
 	for (int i = 0; i < w; i += step)
 	{
-		for (int j = 0; j < w; j += step)
+		for (int j = 0; j < h; j += step)
 		{
-			createRectangle(i + halfstep, j + halfstep, 10, colorValues[0]);
-			createRectangle(i + halfstep, j + halfstep, 5, colorValues[last]);
 			createRectangle(i + halfstep, j + halfstep, 2, colorValues[0]);
+			//createRectangle(i + halfstep, j + halfstep, 5, colorValues[last]);
+			//createRectangle(i + halfstep, j + halfstep, 2, colorValues[0]);
 		}
-	}
+	}*/
+
+	universeData.forEach<uchar>(
+		[](uchar& pixel, const int* position) -> void
+		{
+			pixel = rand() % 10 + 1 > 6 ? 255 : 0;
+		}
+	);
+
 
 	kernel = cv::Mat::ones(3, 3, CV_8U);
 	kernel.at<uchar>(1, 1) = 0;
@@ -96,13 +104,13 @@ cv::Mat WeightedGenerations::getStep()
 	int aliveColor = 255;
 	int deadColor = 0;
 
-	for (int i = 0; i < clone.cols; i++)
+	for (int i = 0; i < clone.rows; i++)
 	{
 		int im = getRow(i - 1) * clone.cols;
 		int ip = getRow(i + 1) * clone.cols;
 		int ic = i * clone.cols;
 
-		for (int j = 0; j < clone.rows; j++)
+		for (int j = 0; j < clone.cols; j++)
 		{
 			int a = 0;
 			int myIndex = ic + j;
