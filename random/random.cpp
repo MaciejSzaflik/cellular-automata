@@ -13,6 +13,7 @@
 #include "LifeLike/Life_Like.h"
 #include "LifeLike/Generations.h"
 #include "LifeLike/WeightedGenerations.h"
+#include "TreeGenerator.h"
 
 using namespace cv;
 using namespace std;
@@ -20,70 +21,59 @@ using namespace std;
 
 int main()
 {
-	int w = 200, h = 200;
+	int w = 400, h = 400;
 	int wH = w / 2, wQ = w / 4, hH = h / 2, hQ = h / 4;
-	int scale = 3;
+	int scale = 2;
 	Mat image = Mat::zeros(w, h, CV_8UC3);
 	Mat imS = Mat::zeros(w*scale, h*scale, CV_8UC3);
-
-	Mat image2 = Mat::zeros(w, h, CV_8UC3);
-	Mat imS2 = Mat::zeros(w * scale, h * scale, CV_8UC3);
 
 	int dir = 0;
 	int itr = 1000;
 
 	srand(time(NULL));
 
-	
-	SimpleAnt ants[] = {
-		AntFactory::GetHardAnt("LRLLLLRRRLLR",w / 2 + wQ, h / 2 - hQ, w, h, itr*10),
-		AntFactory::GetHardAnt("RL",w / 2 - wQ, h / 2 - hQ, w, h, itr),
-		AntFactory::GetHardAnt("RLRLRLRLRLRR",w / 2 - wQ, h / 2 + hQ, w, h, itr),
-		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
-	};
+	TreeGenerator treeGenerator;
+	treeGenerator.initialize(w, h);
 
-	WeightedGenerations seed = WeightedGenerations();
-	seed.initialize(w, h, "34678/234/24");
+	for (int i = 0; i < 40; i++)
+	{
+		image = treeGenerator.getStep();
+		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
+		imshow("display", imS);
+		waitKey(33);
+	}
+	waitKey(0);
 
+	return 0;
+}
+
+void lifeLike(int w, int h, int scale, Mat image, Mat imS)
+{
 	WeightedGenerations seed2 = WeightedGenerations();
 	seed2.initialize(w, h, "34678/234/24");
 
-	image = seed.getTexture();
-	resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
-
 	imshow("display", imS);
 
-
 	waitKey(0);
-
-	clock_t t;
-	t = clock();
-
-	for (int i = 0; i < 200; i++)
-	{
-		image = seed.getStepFilter();
-	}
-
-	t = clock() - t;
-	printf("It took me %d clicks filter (%f seconds).\n", t, ((float)t) / CLOCKS_PER_SEC);
-
-	clock_t t2;
-	t2 = clock();
 
 	for (int i = 0; i < 200; i++)
 	{
 		image = seed2.getStep();
+		resize(image, imS, Size(w * scale, h * scale), 0, 0, 0);
+		imshow("display", imS);
+		waitKey(33);
 	}
-
-	t2 = clock() - t2;
-	printf("It took me %d clicks (%f seconds).\n", t2, ((float)t2) / CLOCKS_PER_SEC);
-
-
-
 	waitKey(0);
+}
 
-
-	return 0;
+void ants(int w, int wQ, int h, int hQ, int itr)
+{
+	SimpleAnt ants[] = {
+		AntFactory::GetHardAnt("LRLLLLRRRLLR",w / 2 + wQ, h / 2 - hQ, w, h, itr * 10),
+		AntFactory::GetHardAnt("RL",w / 2 - wQ, h / 2 - hQ, w, h, itr),
+		AntFactory::GetHardAnt("RLRLRLRLRLRR",w / 2 - wQ, h / 2 + hQ, w, h, itr),
+		AntFactory::GetHardAnt("RRLLLRLRLRRL",w / 2 + wQ, h / 2 + hQ, w, h, itr)
+	};
 }
 
 void createAndWriteRules()

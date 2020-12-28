@@ -154,6 +154,8 @@
     <ClCompile Include="LIfeLike\Seed.cpp" />
     <ClCompile Include="Ants\SimpleAnt.cpp" />
     <ClCompile Include="LIfeLike\WeightedGenerations.cpp" />
+    <ClCompile Include="TreeGenerator.cpp" />
+    <ClCompile Include="TreeSeed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ants\AntFactory.h" />
@@ -166,6 +168,8 @@
     <ClInclude Include="LIfeLike\Seed.h" />
     <ClInclude Include="Ants\SimpleAnt.h" />
     <ClInclude Include="LIfeLike\WeightedGenerations.h" />
+    <ClInclude Include="TreeGenerator.h" />
+    <ClInclude Include="TreeSeed.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
